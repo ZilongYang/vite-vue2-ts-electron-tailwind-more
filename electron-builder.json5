@@ -1,0 +1,35 @@
+{
+    "appId": "com.znlerp.vite-vue2-ts-template",
+    "productName": "vite-vue2-ts-template",
+    "copyright": "Copyright © 2022 zlmix.com",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        {
+          "target": "default",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
+    },
+    "win": {
+    },
+    "linux": {
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "icon/**/*"
+    ],
+    "extraResources": [],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist-out"
+    }
+  }
