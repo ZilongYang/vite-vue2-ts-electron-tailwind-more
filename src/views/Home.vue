@@ -2,14 +2,17 @@
   <div>
     <h1>Home</h1>
     <div class=" text-red-500">count: {{ count }}</div>
-    <button class="btn btn-primary btn-sm" @click="addCount">+1</button>
-    <button class="btn">Button</button>
-
+    <button class="btn btn-primary" @click="addCount">add +1</button>
+    <button class="btn ml-2">Button</button>
+    <hello-world msg="HaHa" class=" mt-6"></hello-world>
   </div>
 </template>
 
 <script>
+import HelloWorld from '@/components/HelloWorld.vue';
+
 export default {
+  components: {HelloWorld},
   computed: {
     count() {
       return this.$store.getters.count;

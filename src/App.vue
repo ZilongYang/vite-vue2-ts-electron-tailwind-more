@@ -5,7 +5,7 @@ import Demo1 from './components/Demo1.vue';
 </script>
 
 <template>
-  <div>
+  <div class=" m-3">
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/hello">Hello</router-link> | 
