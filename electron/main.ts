@@ -20,16 +20,19 @@ autoUpdater.on("update-not-available", (info)=>{
   elog.log("程序没有更新。", info)
 })
 
-autoUpdater.on("update-available", (info)=>{
+autoUpdater.on("update-available", async (info)=>{
   elog.log("程序有更新。", info)
-  dialog.showMessageBox({
+  await  dialog.showMessageBox({
     message: "程序有更新 " + info.version + "，请点击确定后台下载。"
   })
+  // .then(value=>{
+  //   autoUpdater.downloadUpdate()
+  // })
   autoUpdater.downloadUpdate()
 })
 
-autoUpdater.on("update-downloaded",(info)=>{
-  dialog.showMessageBox({
+autoUpdater.on("update-downloaded",async (info)=>{
+  await dialog.showMessageBox({
     message: "更新已下载，请点击确定以关闭程序并安装更新。"
   })
 
