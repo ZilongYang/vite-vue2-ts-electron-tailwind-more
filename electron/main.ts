@@ -2,26 +2,33 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 import {app, BrowserWindow, dialog} from 'electron'
 import { autoUpdater } from 'electron-updater';
-import elog from 'electron-log'
+import log from 'electron-log'
 import path from 'path';
+import axios from 'axios'
+import remoteMain from '@electron/remote/main'
+remoteMain.initialize()
+// import('@electron/remote/main').then(m=>{m.initialize()})
+
+const im_url = import.meta.env.VITE_IM_URL
+console.log('im_url:', im_url)
 
 autoUpdater.autoDownload = false
 autoUpdater.autoInstallOnAppQuit = false
 
 autoUpdater.on("error", (err, msg)=>{
-  elog.log('autoUpdater error: ', msg)
+  log.log('autoUpdater error: ', msg)
 })
 
 autoUpdater.on("checking-for-update", ()=>{
-  elog.log("正在检查更新...")
+  log.log("正在检查更新...")
 })
 
 autoUpdater.on("update-not-available", (info)=>{
-  elog.log("程序没有更新。", info)
+  log.log("程序没有更新。", info)
 })
 
 autoUpdater.on("update-available", async (info)=>{
-  elog.log("程序有更新。", info)
+  log.log("程序有更新。", info)
   await  dialog.showMessageBox({
     message: "程序有更新 " + info.version + "，请点击确定后台下载。"
   })
@@ -37,12 +44,10 @@ autoUpdater.on("update-downloaded",async (info)=>{
   })
 
   setTimeout(() => {
-    elog.info(`autoUpdater - Quitting and installing now`);
+    log.info(`autoUpdater - Quitting and installing now`);
     autoUpdater.quitAndInstall();
   }, 1000);
 })
-
-// console.log('autoUpdater: ', autoUpdater.getFeedURL())
 
 
 let mainWindow: Electron.BrowserWindow | null;
@@ -56,10 +61,13 @@ function createWindow(): void {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      
     },
     width: 800,
     show: false,
   });
+  remoteMain.enable(mainWindow.webContents)
   // and load the index.html of the app.
   // mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   if(process.env.VITE_DEV_SERVER_URL){
@@ -88,7 +96,7 @@ function createWindow(): void {
 app.on('ready', ()=>{
   createWindow()
   setTimeout(() => {
-    elog.info(`autoUpdater - checkForUpdates now`);
+    log.info(`autoUpdater - checkForUpdates now`);
     autoUpdater.checkForUpdates()
   }, 3000);
 });

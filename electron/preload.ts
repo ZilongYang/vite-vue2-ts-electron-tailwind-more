@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { BrowserWindow } from '@electron/remote'
 // const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('versions', {
@@ -25,6 +26,10 @@ contextBridge.exposeInMainWorld('electron_znl',{
     let btn = document.createElement("button")
     btn.innerText = "Electron测试按钮"
     body?.prepend(btn)
+  },
+  closeWindow(){
+    const win = BrowserWindow.getFocusedWindow()
+    win?.close()
   },
   // 在主进程显示通知
   notifyMain(title:string, body:string, notifyId:any):void{
