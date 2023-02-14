@@ -26,3 +26,4 @@ dist-out
 *.njsproj
 *.sln
 *.sw?
+.vite
